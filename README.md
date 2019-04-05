@@ -1,0 +1,1 @@
+# ts-react-pure-class-plugin
