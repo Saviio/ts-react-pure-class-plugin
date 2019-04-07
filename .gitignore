@@ -59,3 +59,7 @@ typings/
 
 # next.js build output
 .next
+
+test/test.d.ts
+test/test.js
+.vscode
