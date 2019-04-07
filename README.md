@@ -48,7 +48,7 @@ interface Option {
 ## Deopt
 TBD
 
-## Benfit
+## Benifit
 in my super naive tests, we can get about 25% ~ 30% performance improvement.
 
 ## License
