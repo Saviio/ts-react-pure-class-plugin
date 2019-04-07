@@ -1,6 +1,6 @@
 # ts-react-pure-class-plugin
 
-A TypeScript AST Transformer that transform class based pure component to functional component.
+A TypeScript AST Transformer that transform class based stateless pure component to functional component.
 
 (still in development)
 
