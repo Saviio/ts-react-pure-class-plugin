@@ -13,6 +13,10 @@ export const isReactImport = (node: ts.Node, source: ts.SourceFile) => {
     reactRE.test(node.moduleSpecifier.getText(source))
 }
 
+export const isAbstractCls = (node: ts.ClassDeclaration) => {
+  return node.modifiers.findIndex(mod => mod.kind === ts.SyntaxKind.AbstractKeyword) > -1
+}
+
 export const isPureCls = (node: ts.ClassDeclaration) => {
   return node.heritageClauses.findIndex(c => pureClsRE.test(c.getText())) > -1
 }

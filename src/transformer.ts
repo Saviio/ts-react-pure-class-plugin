@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 import {
-  isPureCls, isReactFile, getClassModifier,
+  isPureCls, isReactFile, getClassModifier, isAbstractCls,
   createThisContextInitializer, containDeOptCase,
   createMemoImportDecl, createFunctionalComponent,
   createExportVariable, createDefaultExportAssigment, createParameterWithAnyType,
@@ -21,12 +21,12 @@ export default function createTransformer(userOpts: Option = {}) {
   const opts = Object.assign({}, defaultOpts, userOpts)
 
   const transform: ts.TransformerFactory<ts.SourceFile> = (transformContext) => {
-    const classSymbols: Map<ts.Identifier, any> = new Map()
+    const classSymbols: Map<ts.Identifier, [ts.Identifier, [boolean, boolean]]> = new Map()
 
     const visitor: ts.Visitor = (node) => {
 
       // not a class
-      if (!ts.isClassDeclaration(node) || !isPureCls(node)) {
+      if (!ts.isClassDeclaration(node) || !isPureCls(node) || isAbstractCls(node)) {
         return node
       }
 
