@@ -44,7 +44,7 @@ export default function createTransformer(userOpts: Option = {}) {
       }
 
       const thisContext = ts.createUniqueName('ctx')
-      const initializer = createThisContextInitializer(node)
+      const initializer = createThisContextInitializer(node, thisContext)
       const ctor = createCtor(node)
       const propsIdentifier = ts.createUniqueName('rewrited_props')
       const parameter = createParameterWithAnyType(propsIdentifier)

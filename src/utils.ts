@@ -61,10 +61,10 @@ export const containDeOptCase = (classDecl: ts.ClassDeclaration) => {
 
     // handle case: this['foo']
     //              this[x]
-    if (ts.isElementAccessExpression(node) && node.argumentExpression) {
-      deopt = deopt || true
-      return node
-    }
+    // if (ts.isElementAccessExpression(node) && node.argumentExpression) {
+    //   deopt = deopt || true
+    //   return node
+    // }
 
     return node.forEachChild(classVisitor)
   }
@@ -285,17 +285,30 @@ export const createExportVariable = (
   )
 }
 
-export const createThisContextInitializer = (node: ts.ClassDeclaration) => {
+export const createThisContextInitializer = (node: ts.ClassDeclaration, thisContext: ts.Identifier) => {
   const ret: ts.PropertyAssignment[] = []
 
   node.forEachChild((n) => {
     if (ts.isPropertyDeclaration(n)) {
       if (n.initializer) {
-        const assignment = ts.createPropertyAssignment(
-          n.name,
-          n.initializer
-        )
-        ret.push(assignment)
+        if (ts.isArrowFunction(n.initializer)) {
+          const assignment = ts.createPropertyAssignment(
+            n.name,
+            createCall(
+              n.name as ts.Identifier,
+              n.initializer.parameters,
+              (n.initializer.body as ts.FunctionBody).statements,
+              thisContext
+            )
+          )
+          ret.push(assignment)
+        } else {
+          const assignment = ts.createPropertyAssignment(
+            n.name,
+            n.initializer
+          )
+          ret.push(assignment)
+        }
       }
     } else if (ts.isMethodDeclaration(n) && n.name.getText() !== 'render') {
       const assignment = ts.createPropertyAssignment(
@@ -379,5 +392,31 @@ export const createParameterWithAnyType = (identifier: ts.Identifier) => {
     undefined,
     ts.createKeywordTypeNode(ts.SyntaxKind.AnyKeyword),
     undefined
+  )
+}
+
+export const createCall = (
+  identifier: ts.Identifier,
+  parameters: ts.NodeArray<ts.ParameterDeclaration>,
+  stmnts: ts.NodeArray<ts.Statement>,
+  thisContext: ts.Identifier
+) => {
+  return ts.createCall(
+    ts.createPropertyAccess(
+      ts.createParen(
+        ts.createFunctionExpression(
+          undefined,
+          undefined,
+          identifier,
+          undefined,
+          parameters,
+          undefined,
+          ts.createBlock(stmnts, true)
+        )
+      ),
+      ts.createIdentifier('bind')
+    ),
+    undefined,
+    [thisContext]
   )
 }
