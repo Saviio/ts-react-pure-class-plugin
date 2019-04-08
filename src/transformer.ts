@@ -43,10 +43,10 @@ export default function createTransformer(userOpts: Option = {}) {
         `)
       }
 
-      const thisContext = ts.createUniqueName('ctx')
-      const initializer = createThisContextInitializer(node, thisContext)
-      const ctor = createCtor(node)
       const propsIdentifier = ts.createUniqueName('rewrited_props')
+      const thisContext = ts.createUniqueName('ctx')
+      const initializer = createThisContextInitializer(node, thisContext, propsIdentifier, transformContext)
+      const ctor = createCtor(node)
       const parameter = createParameterWithAnyType(propsIdentifier)
       const renderFunction = rewriteRenderFunction(node, thisContext, transformContext, parameter.name as ts.Identifier)
 

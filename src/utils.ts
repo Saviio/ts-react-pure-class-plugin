@@ -14,11 +14,12 @@ export const isReactImport = (node: ts.Node, source: ts.SourceFile) => {
 }
 
 export const isAbstractCls = (node: ts.ClassDeclaration) => {
-  return node.modifiers.findIndex(mod => mod.kind === ts.SyntaxKind.AbstractKeyword) > -1
+  return node.modifiers && node.modifiers.findIndex(mod => mod.kind === ts.SyntaxKind.AbstractKeyword) > -1
 }
 
 export const isPureCls = (node: ts.ClassDeclaration) => {
-  return node.heritageClauses.findIndex(c => pureClsRE.test(c.getText())) > -1
+  const clauses = node.heritageClauses
+  return clauses && clauses.findIndex(c => pureClsRE.test(c.getText())) > -1
 }
 
 export const getClassModifier = (node: ts.ClassDeclaration): [boolean, boolean] => {
@@ -83,7 +84,7 @@ export const containStates = (node: ts.HeritageClause) => {
   node.forEachChild((n) => {
     if (ts.isExpressionWithTypeArguments(n)) {
       const syntax = n.getChildAt(2)
-      ret = ret || syntax.getChildCount() > 1
+      ret = ret || (syntax && syntax.getChildCount() > 1)
     }
   })
 
@@ -155,8 +156,22 @@ export const createInitlizer = (
   ctx: ts.Identifier,
   properties: ts.ObjectLiteralElementLike[]
 ) => {
+  const variableDeclStmnt = ts.createVariableStatement(
+    undefined,
+    ts.createVariableDeclarationList(
+      [
+        ts.createVariableDeclaration(
+          ctx,
+          undefined,
+          ts.createObjectLiteral(properties, false)
+        )
+      ],
+      ts.NodeFlags.Let
+    )
+  )
+
   if (statements.length === 0) {
-    return statements
+    return [variableDeclStmnt]
   }
 
   const ctor = ts.createUniqueName('ctor')
@@ -172,20 +187,6 @@ export const createInitlizer = (
     ts.createBlock(
       [...statements],
       true
-    )
-  )
-
-  const variableDeclStmnt = ts.createVariableStatement(
-    undefined,
-    ts.createVariableDeclarationList(
-      [
-        ts.createVariableDeclaration(
-          ctx,
-          undefined,
-          ts.createObjectLiteral(properties, false)
-        )
-      ],
-      ts.NodeFlags.Let
     )
   )
 
@@ -285,7 +286,12 @@ export const createExportVariable = (
   )
 }
 
-export const createThisContextInitializer = (node: ts.ClassDeclaration, thisContext: ts.Identifier) => {
+export const createThisContextInitializer = (
+  node: ts.ClassDeclaration,
+  thisContext: ts.Identifier,
+  propsIdentifier: ts.Identifier,
+  transformContext: ts.TransformationContext,
+) => {
   const ret: ts.PropertyAssignment[] = []
 
   node.forEachChild((n) => {
@@ -297,7 +303,10 @@ export const createThisContextInitializer = (node: ts.ClassDeclaration, thisCont
             createCall(
               n.name as ts.Identifier,
               n.initializer.parameters,
-              (n.initializer.body as ts.FunctionBody).statements,
+              ts.createNodeArray(
+                (n.initializer.body as ts.FunctionBody).statements.map((stmnt) =>
+                  ts.visitNode(stmnt, propertyVistor(stmnt, propsIdentifier, thisContext, transformContext)))
+              ),
               thisContext
             )
           )
@@ -320,7 +329,9 @@ export const createThisContextInitializer = (node: ts.ClassDeclaration, thisCont
           undefined,
           n.parameters,
           undefined,
-          ts.createBlock(n.body.statements, true)
+          ts.createBlock(n.body.statements.map((stmnt) =>
+            ts.visitNode(stmnt, propertyVistor(stmnt, propsIdentifier, thisContext, transformContext)))
+          , true)
         )
       )
       ret.push(assignment)
@@ -344,15 +355,13 @@ export const createCtor = (classDecl: ts.ClassDeclaration) => {
   return stmnts
 }
 
-export const rewriteRenderFunction = (
-  classDecl: ts.ClassDeclaration,
+const propertyVistor = (
+  target: ts.Node,
+  propsIdentifier: ts.Identifier,
   thisContext: ts.Identifier,
   transformContext: ts.TransformationContext,
-  propsIdentifier: ts.Identifier
 ) => {
-  const stmnts: ts.Statement[] = []
-
-  const renderVistor: ts.Visitor = (node) => {
+  const renderVistor: ts.Visitor = (node: ts.Node) => {
     if (ts.isPropertyAccessExpression(node)) {
       // handle case: const a = this.a
       if (node.expression.kind === ts.SyntaxKind.ThisKeyword && node.name.getText() !== 'props') {
@@ -372,10 +381,41 @@ export const rewriteRenderFunction = (
     return ts.visitEachChild(node, renderVistor, transformContext)
   }
 
+  return () => ts.visitEachChild(target, renderVistor, transformContext)
+}
+
+export const rewriteRenderFunction = (
+  classDecl: ts.ClassDeclaration,
+  thisContext: ts.Identifier,
+  transformContext: ts.TransformationContext,
+  propsIdentifier: ts.Identifier
+) => {
+  const stmnts: ts.Statement[] = []
+
+  // const renderVistor: ts.Visitor = (node) => {
+  //   if (ts.isPropertyAccessExpression(node)) {
+  //     // handle case: const a = this.a
+  //     if (node.expression.kind === ts.SyntaxKind.ThisKeyword && node.name.getText() !== 'props') {
+  //       return ts.updatePropertyAccess(node, thisContext, node.name)
+  //     }
+
+  //     // handle case: const b = this.props.b
+  //     if (ts.isPropertyAccessExpression(node.expression) && node.expression.name.getText() === 'props') {
+  //       return ts.createPropertyAccess(propsIdentifier, node.name)
+  //     }
+
+  //     // handle case: const {  c } = this.props
+  //     if (node.expression.kind === ts.SyntaxKind.ThisKeyword && node.name.getText() === 'props') {
+  //       return propsIdentifier
+  //     }
+  //   }
+  //   return ts.visitEachChild(node, renderVistor, transformContext)
+  // }
+
   classDecl.forEachChild((n) => {
     if (ts.isMethodDeclaration(n) && n.name.getText() === 'render') {
       stmnts.push(...n.body.statements.map(stmnt => {
-        return ts.visitNode(stmnt, renderVistor)
+        return ts.visitNode(stmnt, propertyVistor(stmnt, propsIdentifier, thisContext, transformContext))
       }))
     }
   })
