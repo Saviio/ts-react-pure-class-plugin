@@ -73,6 +73,16 @@ if transformer meets one of following conditions, optmization will be skipped.
 - not a pure component
 - a special comment directive
 
+### Deopt directive
+```typescript
+/*@__DEOPT__*/
+export class A1 extends React.PureComponent {
+  render() {
+    return <div>Foo</div>
+  }
+}
+```
+
 ## Benifit
 in my super naive tests, we can get about 25% ~ 30% performance improvement.
 

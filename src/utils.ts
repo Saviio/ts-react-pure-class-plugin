@@ -3,6 +3,7 @@ import * as ts from 'typescript'
 const reactRE = /['"]react['"]/
 const pureClsRE = /PureComponent/
 const superRE = /super/
+const deoptRE = /\/\*@__DEOPT__\*\//
 
 export const isReactFile = (source: ts.SourceFile) => {
   return source.statements.findIndex((n) => isReactImport(n, source)) > -1
@@ -20,6 +21,10 @@ export const isAbstractCls = (node: ts.ClassDeclaration) => {
 export const isPureCls = (node: ts.ClassDeclaration) => {
   const clauses = node.heritageClauses
   return clauses && clauses.findIndex(c => pureClsRE.test(c.getText())) > -1
+}
+
+export const isDeoptCls = (node: ts.ClassDeclaration) => {
+  return deoptRE.test(node.getFullText())
 }
 
 export const getClassModifier = (node: ts.ClassDeclaration): [boolean, boolean] => {
