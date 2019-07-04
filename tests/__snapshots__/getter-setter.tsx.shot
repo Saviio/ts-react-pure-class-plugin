@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform getter-setter.tsx with memo 1`] = `
+
+File: getter-setter.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    get property1() {
+      return 1
+    }
+  
+    render() {
+      return <div>{ this.property1 }</div>
+    }
+  }
+  
+  export class A2 extends React.PureComponent {
+  
+    private v: number = 0
+    set property1(v: number) {
+      this.v = v
+    }
+  
+    render() {
+      return <div>{ this.property1 }</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export class A1 extends React.PureComponent {
+    get property1() {
+      return 1;
+    }
+    render() {
+      return <div>{this.property1}</div>;
+    }
+  }
+  export class A2 extends React.PureComponent {
+    private v: number = 0;
+    set property1(v: number) {
+      this.v = v;
+    }
+    render() {
+      return <div>{this.property1}</div>;
+    }
+  }
+  
+
+`;
+
+exports[`should transform getter-setter.tsx without memo 1`] = `
+
+File: getter-setter.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    get property1() {
+      return 1
+    }
+  
+    render() {
+      return <div>{ this.property1 }</div>
+    }
+  }
+  
+  export class A2 extends React.PureComponent {
+  
+    private v: number = 0
+    set property1(v: number) {
+      this.v = v
+    }
+  
+    render() {
+      return <div>{ this.property1 }</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export class A1 extends React.PureComponent {
+    get property1() {
+      return 1;
+    }
+    render() {
+      return <div>{this.property1}</div>;
+    }
+  }
+  export class A2 extends React.PureComponent {
+    private v: number = 0;
+    set property1(v: number) {
+      this.v = v;
+    }
+    render() {
+      return <div>{this.property1}</div>;
+    }
+  }
+  
+
+`;

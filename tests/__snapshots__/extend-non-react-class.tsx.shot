@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform extend-non-react-class.tsx with memo 1`] = `
+
+File: extend-non-react-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  class Alpha {}
+  
+  export class A1 extends Alpha {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  class Alpha {
+  }
+  export class A1 extends Alpha {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  
+
+`;
+
+exports[`should transform extend-non-react-class.tsx without memo 1`] = `
+
+File: extend-non-react-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  class Alpha {}
+  
+  export class A1 extends Alpha {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  class Alpha {
+  }
+  export class A1 extends Alpha {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  
+
+`;

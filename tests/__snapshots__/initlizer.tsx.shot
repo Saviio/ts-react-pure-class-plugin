@@ -1,0 +1,202 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform initlizer.tsx with memo 1`] = `
+
+File: initlizer.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    private a: number = 1
+    private b: string = '2'
+    public c: boolean = true
+    render() {
+      return (
+        <div>
+          { this.a }
+          { this.b }
+          { this.c }
+        </div>
+      )
+    }
+  }
+  
+  export class A2 extends React.PureComponent {
+    private a: number = 1
+    private b: string = '2'
+    public c: boolean = true
+    render() {
+      const a = this.a
+      const b = this.b
+      const c = this.c
+      return (
+        <div>
+          { a }
+          { b }
+          { c }
+        </div>
+      )
+    }
+  }
+  
+  export class A3 extends React.PureComponent {
+    private a: number = 1
+    private b: string = '2'
+    public c: boolean = true
+    render() {
+      const { a, b, c } = this
+      return (
+        <div>
+          { a }
+          { b }
+          { c }
+        </div>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, a: 1, b: '2', c: true };
+    Object.assign(ctx_1, {});
+    return (<div>
+      {ctx_1.a}
+      {ctx_1.b}
+      {ctx_1.c}
+    </div>);
+  }
+  function rewrited_pure_class_A2_1(rewrited_props_2: any) {
+    let ctx_2 = { props: rewrited_props_2, a: 1, b: '2', c: true };
+    Object.assign(ctx_2, {});
+    const a = ctx_2.a;
+    const b = ctx_2.b;
+    const c = ctx_2.c;
+    return (<div>
+      {a}
+      {b}
+      {c}
+    </div>);
+  }
+  function rewrited_pure_class_A3_1(rewrited_props_3: any) {
+    let ctx_3 = { props: rewrited_props_3, a: 1, b: '2', c: true };
+    Object.assign(ctx_3, {});
+    const { a, b, c } = ctx_3;
+    return (<div>
+      {a}
+      {b}
+      {c}
+    </div>);
+  }
+  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
+  export const A2 = react_memo_1(rewrited_pure_class_A2_1);
+  export const A3 = react_memo_1(rewrited_pure_class_A3_1);
+  
+
+`;
+
+exports[`should transform initlizer.tsx without memo 1`] = `
+
+File: initlizer.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    private a: number = 1
+    private b: string = '2'
+    public c: boolean = true
+    render() {
+      return (
+        <div>
+          { this.a }
+          { this.b }
+          { this.c }
+        </div>
+      )
+    }
+  }
+  
+  export class A2 extends React.PureComponent {
+    private a: number = 1
+    private b: string = '2'
+    public c: boolean = true
+    render() {
+      const a = this.a
+      const b = this.b
+      const c = this.c
+      return (
+        <div>
+          { a }
+          { b }
+          { c }
+        </div>
+      )
+    }
+  }
+  
+  export class A3 extends React.PureComponent {
+    private a: number = 1
+    private b: string = '2'
+    public c: boolean = true
+    render() {
+      const { a, b, c } = this
+      return (
+        <div>
+          { a }
+          { b }
+          { c }
+        </div>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, a: 1, b: '2', c: true };
+    Object.assign(ctx_1, {});
+    return (<div>
+      {ctx_1.a}
+      {ctx_1.b}
+      {ctx_1.c}
+    </div>);
+  }
+  function rewrited_pure_class_A2_1(rewrited_props_2: any) {
+    let ctx_2 = { props: rewrited_props_2, a: 1, b: '2', c: true };
+    Object.assign(ctx_2, {});
+    const a = ctx_2.a;
+    const b = ctx_2.b;
+    const c = ctx_2.c;
+    return (<div>
+      {a}
+      {b}
+      {c}
+    </div>);
+  }
+  function rewrited_pure_class_A3_1(rewrited_props_3: any) {
+    let ctx_3 = { props: rewrited_props_3, a: 1, b: '2', c: true };
+    Object.assign(ctx_3, {});
+    const { a, b, c } = ctx_3;
+    return (<div>
+      {a}
+      {b}
+      {c}
+    </div>);
+  }
+  export const A1 = rewrited_pure_class_A1_1;
+  export const A2 = rewrited_pure_class_A2_1;
+  export const A3 = rewrited_pure_class_A3_1;
+  
+
+`;

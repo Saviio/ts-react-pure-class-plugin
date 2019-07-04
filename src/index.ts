@@ -1,1 +1,1 @@
-export { default as transformer } from './transformer'
+export { default as transformer, Option } from './transformer'

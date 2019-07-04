@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform conflict-props.tsx with memo 1`] = `
+
+File: conflict-props.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent<{ message: string }> {
+    render() {
+      const props = {}
+      return <div>{ this.props.message }</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, {});
+    const props = {};
+    return <div>{rewrited_props_1.message}</div>;
+  }
+  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
+  
+
+`;
+
+exports[`should transform conflict-props.tsx without memo 1`] = `
+
+File: conflict-props.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent<{ message: string }> {
+    render() {
+      const props = {}
+      return <div>{ this.props.message }</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, {});
+    const props = {};
+    return <div>{rewrited_props_1.message}</div>;
+  }
+  export const A1 = rewrited_pure_class_A1_1;
+  
+
+`;

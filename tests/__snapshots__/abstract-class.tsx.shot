@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform abstract-class.tsx with memo 1`] = `
+
+File: abstract-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export abstract class A1 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+  export default abstract class A2 extends React.PureComponent  {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export abstract class A1 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  export default abstract class A2 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  
+
+`;
+
+exports[`should transform abstract-class.tsx without memo 1`] = `
+
+File: abstract-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export abstract class A1 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+  export default abstract class A2 extends React.PureComponent  {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export abstract class A1 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  export default abstract class A2 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  
+
+`;

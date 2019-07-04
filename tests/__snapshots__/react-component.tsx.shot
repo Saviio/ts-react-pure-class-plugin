@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform react-component.tsx with memo 1`] = `
+
+File: react-component.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.Component {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export class A1 extends React.Component {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  
+
+`;
+
+exports[`should transform react-component.tsx without memo 1`] = `
+
+File: react-component.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.Component {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export class A1 extends React.Component {
+    render() {
+      return <div>Foo</div>;
+    }
+  }
+  
+
+`;

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform non-class.tsx with memo 1`] = `
+
+File: non-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export const A1 = () => {
+    return <div>Foo</div>
+  }
+  
+  export function A2() {
+    return <div>Foo</div>
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export const A1 = () => {
+    return <div>Foo</div>;
+  };
+  export function A2() {
+    return <div>Foo</div>;
+  }
+  
+
+`;
+
+exports[`should transform non-class.tsx without memo 1`] = `
+
+File: non-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export const A1 = () => {
+    return <div>Foo</div>
+  }
+  
+  export function A2() {
+    return <div>Foo</div>
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export const A1 = () => {
+    return <div>Foo</div>;
+  };
+  export function A2() {
+    return <div>Foo</div>;
+  }
+  
+
+`;

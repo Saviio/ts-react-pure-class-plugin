@@ -7,7 +7,7 @@ import {
   createCtor, rewriteRenderFunction
 } from './utils'
 
-interface Option {
+export interface Option {
   verbose?: boolean
   useMemo?: boolean
 }
@@ -22,11 +22,11 @@ export default function createTransformer(userOpts: Option = {}) {
 
   const transform: ts.TransformerFactory<ts.SourceFile> = (transformContext) => {
     const classSymbols: Map<ts.Identifier, [ts.Identifier, [boolean, boolean]]> = new Map()
+    let rewrited = false
 
     const visitor: ts.Visitor = (node) => {
-
       // not a class
-      if (!ts.isClassDeclaration(node) || !isPureCls(node) || isAbstractCls(node)) {
+      if (!ts.isClassDeclaration(node) || !isPureCls(node) || isAbstractCls(node)/* || containSpecialDirective(node)*/) {
         return node
       }
 
@@ -36,8 +36,10 @@ export default function createTransformer(userOpts: Option = {}) {
 
       const classIdentifierText = node.name.getText()
       const modifiedIdentifier = ts.createUniqueName(`rewrited_pure_class_${classIdentifierText}`)
+      rewrited = true
 
       if (opts.verbose) {
+        /* istanbul ignore next */
         console.info(`
           [Pure-Class-Plugin]: Rewriting ${classIdentifierText}
         `)
@@ -46,7 +48,7 @@ export default function createTransformer(userOpts: Option = {}) {
       const propsIdentifier = ts.createUniqueName('rewrited_props')
       const thisContext = ts.createUniqueName('ctx')
       const initializer = createThisContextInitializer(node, thisContext, propsIdentifier, transformContext)
-      const ctor = createCtor(node)
+      const ctor = createCtor(node, propsIdentifier, transformContext)
       const parameter = createParameterWithAnyType(propsIdentifier)
       const renderFunction = rewriteRenderFunction(node, thisContext, transformContext, parameter.name as ts.Identifier)
 
@@ -82,11 +84,13 @@ export default function createTransformer(userOpts: Option = {}) {
         exportsDecls.push(exportNode)
       })
 
+      const memoDecl = (opts.useMemo && rewrited) ? [memoImportDecl] : []
+
       return ts.updateSourceFileNode(
         source,
         ts.setTextRange(
           ts.createNodeArray([
-            ...(opts.useMemo ? [memoImportDecl] : []),
+            ...memoDecl,
             ...transformedNodes,
             ...exportsDecls
           ]),

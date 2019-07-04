@@ -8,10 +8,11 @@
     "build": "rm -rf lib && tsc -p src/tsconfig.json",
     "cover": "npm run build && rm -rf ./coverage ./.nyc_output && nyc --reporter=html --reporter=lcov --exclude=node_modules --exclude=test mocha && nyc report",
     "lint": "tslint -c ./tslint.json -p ./src/tsconfig.json",
-    "test": "mocha",
     "watch": "tsc -p ./src/tsconfig.json -w --diagnostics",
     "bench": "npm run build && rm -rf ./dist && webpack",
-    "check": "ts-node ./test/index.ts"
+    "check": "ts-node ./test/index.ts",
+    "test": "jest",
+    "snapshot-update": "jest -u"
   },
   "keywords": [
     "sfc",
@@ -26,21 +27,21 @@
   "author": "Saviio",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/chai": "^4.1.3",
-    "@types/mocha": "^5.2.1",
+    "@types/jest": "^24.0.15",
     "@types/node": "^10.3.1",
     "@types/react": "^16.3.16",
     "@types/react-dom": "^16.0.6",
-    "chai": "^4.1.2",
     "copy-webpack-plugin": "^4.5.2",
     "coveralls": "^3.0.1",
     "glob": "^7.1.3",
     "husky": "^0.14.3",
+    "jest-specific-snapshot": "^2.0.0",
     "lint-staged": "^7.1.3",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "ts-jest": "^24.0.2",
     "ts-loader": "^4.3.1",
     "ts-node": "^8.0.3",
     "tslint": "^5.15.0",
@@ -49,7 +50,30 @@
     "webpack": "^4.10.2",
     "webpack-cli": "^3.0.2"
   },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tests/tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "coverageDirectory": "./tests/coverage",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testRegex": "/tests/.*\\.spec\\.(j|t)sx?$",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ]
+  },
   "dependencies": {
-    "jest": "^24.7.1"
+    "benchmark": "^2.1.4",
+    "jest": "^24.8.0"
   }
 }

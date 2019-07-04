@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform non-react-file.tsx with memo 1`] = `
+
+File: non-react-file.tsx
+TypeScript before transform:
+
+  import * as fs from 'fs'
+  
+  export class A {
+  
+    read() {
+      const content = fs.readFileSync(process.cwd())
+      return content
+    }
+  
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as fs from 'fs';
+  export class A {
+    read() {
+      const content = fs.readFileSync(process.cwd());
+      return content;
+    }
+  }
+  
+
+`;
+
+exports[`should transform non-react-file.tsx without memo 1`] = `
+
+File: non-react-file.tsx
+TypeScript before transform:
+
+  import * as fs from 'fs'
+  
+  export class A {
+  
+    read() {
+      const content = fs.readFileSync(process.cwd())
+      return content
+    }
+  
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as fs from 'fs';
+  export class A {
+    read() {
+      const content = fs.readFileSync(process.cwd());
+      return content;
+    }
+  }
+  
+
+`;

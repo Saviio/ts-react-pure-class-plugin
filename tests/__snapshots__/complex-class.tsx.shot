@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform complex-class.tsx with memo 1`] = `
+
+File: complex-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent<any> {
+    a: number = 0
+    b: string = '1'
+    c: boolean = false
+    obj: object = {}
+    fn: (e: any) => void = (e: any) => void 0
+    z: string = 'x'
+    y: number = 0
+    x: boolean = false
+  
+    constructor(props: any) {
+      super(props)
+      this.a = props.a
+      this.b = 'bar-foo'
+      this.c = true
+      this.obj = { a: this.c }
+      this.fn = this.fn.bind(this)
+      this.z = props['z']
+      this.y = this.props.y
+      this.x = this.props['x']
+    }
+  
+    output = () => {
+      const a = this.props.a
+      const b = this.props.b
+      const c = this.props['c']
+      const { d } = this['props']
+      console.info(a, b, c)
+    }
+  
+    read = () => {
+      const { a, b, c } = this
+      return [a, b, c]
+    }
+  
+    render() {
+      return (
+        <>
+          <div>
+            <span>{ this.a }</span>
+            <div>{ this.c || false }</div>
+            <div onClick={ this.output }>{ this.obj.toString() }</div>
+            <div onClick={ this.fn }>Foo</div>
+          </div>
+        </>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, a: 0, b: '1', c: false, obj: {}, z: 'x', y: 0, x: false };
+    Object.assign(ctx_1, { fn: (function fn(e: any) {
+        const ret_1 = void 0;
+        return ret_1;
+      }).bind(ctx_1), output: (function output() {
+        const a = rewrited_props_1.a;
+        const b = rewrited_props_1.b;
+        const c = rewrited_props_1['c'];
+        const { d } = this['props'];
+        console.info(a, b, c);
+      }).bind(ctx_1), read: (function read() {
+        const { a, b, c } = ctx_1;
+        return [a, b, c];
+      }).bind(ctx_1) });
+    function ctor_1() {
+      this.a = rewrited_props_1.a;
+      this.b = 'bar-foo';
+      this.c = true;
+      this.obj = { a: this.c };
+      this.fn = this.fn.bind(this);
+      this.z = rewrited_props_1['z'];
+      this.y = this.props.y;
+      this.x = this.props['x'];
+    }
+    ctor_1.call(ctx_1);
+    return (<>
+      <div>
+      <span>{ctx_1.a}</span>
+      <div>{ctx_1.c || false}</div>
+      <div onClick={ctx_1.output}>{ctx_1.obj.toString()}</div>
+      <div onClick={ctx_1.fn}>Foo</div>
+      </div>
+    </>);
+  }
+  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
+  
+
+`;
+
+exports[`should transform complex-class.tsx without memo 1`] = `
+
+File: complex-class.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent<any> {
+    a: number = 0
+    b: string = '1'
+    c: boolean = false
+    obj: object = {}
+    fn: (e: any) => void = (e: any) => void 0
+    z: string = 'x'
+    y: number = 0
+    x: boolean = false
+  
+    constructor(props: any) {
+      super(props)
+      this.a = props.a
+      this.b = 'bar-foo'
+      this.c = true
+      this.obj = { a: this.c }
+      this.fn = this.fn.bind(this)
+      this.z = props['z']
+      this.y = this.props.y
+      this.x = this.props['x']
+    }
+  
+    output = () => {
+      const a = this.props.a
+      const b = this.props.b
+      const c = this.props['c']
+      const { d } = this['props']
+      console.info(a, b, c)
+    }
+  
+    read = () => {
+      const { a, b, c } = this
+      return [a, b, c]
+    }
+  
+    render() {
+      return (
+        <>
+          <div>
+            <span>{ this.a }</span>
+            <div>{ this.c || false }</div>
+            <div onClick={ this.output }>{ this.obj.toString() }</div>
+            <div onClick={ this.fn }>Foo</div>
+          </div>
+        </>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, a: 0, b: '1', c: false, obj: {}, z: 'x', y: 0, x: false };
+    Object.assign(ctx_1, { fn: (function fn(e: any) {
+        const ret_1 = void 0;
+        return ret_1;
+      }).bind(ctx_1), output: (function output() {
+        const a = rewrited_props_1.a;
+        const b = rewrited_props_1.b;
+        const c = rewrited_props_1['c'];
+        const { d } = this['props'];
+        console.info(a, b, c);
+      }).bind(ctx_1), read: (function read() {
+        const { a, b, c } = ctx_1;
+        return [a, b, c];
+      }).bind(ctx_1) });
+    function ctor_1() {
+      this.a = rewrited_props_1.a;
+      this.b = 'bar-foo';
+      this.c = true;
+      this.obj = { a: this.c };
+      this.fn = this.fn.bind(this);
+      this.z = rewrited_props_1['z'];
+      this.y = this.props.y;
+      this.x = this.props['x'];
+    }
+    ctor_1.call(ctx_1);
+    return (<>
+      <div>
+      <span>{ctx_1.a}</span>
+      <div>{ctx_1.c || false}</div>
+      <div onClick={ctx_1.output}>{ctx_1.obj.toString()}</div>
+      <div onClick={ctx_1.fn}>Foo</div>
+      </div>
+    </>);
+  }
+  export const A1 = rewrited_pure_class_A1_1;
+  
+
+`;
