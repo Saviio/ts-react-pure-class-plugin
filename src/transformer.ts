@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 import {
-  isPureCls, isReactFile, getClassModifier, isAbstractCls,
+  isPureCls, isReactFile, getClassModifier, isAbstractCls, isDeoptCls,
   createThisContextInitializer, containDeOptCase,
   createMemoImportDecl, createFunctionalComponent,
   createExportVariable, createDefaultExportAssigment, createParameterWithAnyType,
@@ -26,7 +26,7 @@ export default function createTransformer(userOpts: Option = {}) {
 
     const visitor: ts.Visitor = (node) => {
       // not a class
-      if (!ts.isClassDeclaration(node) || !isPureCls(node) || isAbstractCls(node)/* || containSpecialDirective(node)*/) {
+      if (!ts.isClassDeclaration(node) || !isPureCls(node) || isAbstractCls(node) || isDeoptCls(node)) {
         return node
       }
 
