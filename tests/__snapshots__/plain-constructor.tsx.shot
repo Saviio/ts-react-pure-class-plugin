@@ -28,7 +28,6 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1, a: 0 };
-    Object.assign(ctx_1, {});
     function ctor_1() {
       this.a = 1;
     }
@@ -67,7 +66,6 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1, a: 0 };
-    Object.assign(ctx_1, {});
     function ctor_1() {
       this.a = 1;
     }
