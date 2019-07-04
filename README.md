@@ -2,8 +2,6 @@
 
 A TypeScript AST Transformer that transform class based stateless pure component to functional component.
 
-(still in development)
-
 ## Example
 
 from
@@ -35,6 +33,24 @@ getCustomTransformers: () => ({
 })
 ```
 
+## Notice
+if you want to use this plugin, please make sure there're no components were described like following code, otherwise, the transformation will break your app.
+```
+class Foo extends React.PureComponent {
+
+  render() {
+    return <div />
+  }
+
+}
+
+class Bar extends Foo {
+  // bala bala
+}
+```
+ In most situations, you can just mark Foo as abstract class to skip the optmization and solve the problem.
+
+
 ## Option
 ```typescript
 pureClsPlugin(option?: Option)
@@ -46,7 +62,16 @@ interface Option {
 ```
 
 ## Deopt
-TBD
+if transformer meets one of following conditions, optmization will be skipped.
+
+- contain react component lifecycle
+- contain state
+- contain getter/setter
+- contain decorator
+- contain static property
+- abstract class
+- not a pure component
+- a special comment directive
 
 ## Benifit
 in my super naive tests, we can get about 25% ~ 30% performance improvement.

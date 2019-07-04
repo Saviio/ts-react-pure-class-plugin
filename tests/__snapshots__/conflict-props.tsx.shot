@@ -23,7 +23,6 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1 };
-    Object.assign(ctx_1, {});
     const props = {};
     return <div>{rewrited_props_1.message}</div>;
   }
@@ -54,7 +53,6 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1 };
-    Object.assign(ctx_1, {});
     const props = {};
     return <div>{rewrited_props_1.message}</div>;
   }

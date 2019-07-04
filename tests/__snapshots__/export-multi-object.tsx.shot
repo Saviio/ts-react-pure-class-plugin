@@ -34,17 +34,14 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1 };
-    Object.assign(ctx_1, {});
     return <div>Foo</div>;
   }
   function rewrited_pure_class_A2_1(rewrited_props_2: any) {
     let ctx_2 = { props: rewrited_props_2 };
-    Object.assign(ctx_2, {});
     return <div>Foo</div>;
   }
   function rewrited_pure_class_A3_1(rewrited_props_3: any) {
     let ctx_3 = { props: rewrited_props_3 };
-    Object.assign(ctx_3, {});
     return <div>Foo</div>;
   }
   export const A1 = react_memo_1(rewrited_pure_class_A1_1);
@@ -87,17 +84,14 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1 };
-    Object.assign(ctx_1, {});
     return <div>Foo</div>;
   }
   function rewrited_pure_class_A2_1(rewrited_props_2: any) {
     let ctx_2 = { props: rewrited_props_2 };
-    Object.assign(ctx_2, {});
     return <div>Foo</div>;
   }
   function rewrited_pure_class_A3_1(rewrited_props_3: any) {
     let ctx_3 = { props: rewrited_props_3 };
-    Object.assign(ctx_3, {});
     return <div>Foo</div>;
   }
   export const A1 = rewrited_pure_class_A1_1;

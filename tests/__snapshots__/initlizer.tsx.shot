@@ -65,7 +65,6 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1, a: 1, b: '2', c: true };
-    Object.assign(ctx_1, {});
     return (<div>
       {ctx_1.a}
       {ctx_1.b}
@@ -74,7 +73,6 @@ TypeScript after transform:
   }
   function rewrited_pure_class_A2_1(rewrited_props_2: any) {
     let ctx_2 = { props: rewrited_props_2, a: 1, b: '2', c: true };
-    Object.assign(ctx_2, {});
     const a = ctx_2.a;
     const b = ctx_2.b;
     const c = ctx_2.c;
@@ -86,7 +84,6 @@ TypeScript after transform:
   }
   function rewrited_pure_class_A3_1(rewrited_props_3: any) {
     let ctx_3 = { props: rewrited_props_3, a: 1, b: '2', c: true };
-    Object.assign(ctx_3, {});
     const { a, b, c } = ctx_3;
     return (<div>
       {a}
@@ -165,7 +162,6 @@ TypeScript after transform:
   import * as React from 'react';
   function rewrited_pure_class_A1_1(rewrited_props_1: any) {
     let ctx_1 = { props: rewrited_props_1, a: 1, b: '2', c: true };
-    Object.assign(ctx_1, {});
     return (<div>
       {ctx_1.a}
       {ctx_1.b}
@@ -174,7 +170,6 @@ TypeScript after transform:
   }
   function rewrited_pure_class_A2_1(rewrited_props_2: any) {
     let ctx_2 = { props: rewrited_props_2, a: 1, b: '2', c: true };
-    Object.assign(ctx_2, {});
     const a = ctx_2.a;
     const b = ctx_2.b;
     const c = ctx_2.c;
@@ -186,7 +181,6 @@ TypeScript after transform:
   }
   function rewrited_pure_class_A3_1(rewrited_props_3: any) {
     let ctx_3 = { props: rewrited_props_3, a: 1, b: '2', c: true };
-    Object.assign(ctx_3, {});
     const { a, b, c } = ctx_3;
     return (<div>
       {a}

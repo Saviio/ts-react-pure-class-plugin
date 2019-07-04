@@ -210,7 +210,7 @@ export const createInitlizer = (
     )
   )
 
-  const objectAssignStmnt = ts.createExpressionStatement(
+  const objectAssignStmnt = properties[1].length && ts.createExpressionStatement(
     ts.createCall(
       ts.createPropertyAccess(
         ts.createIdentifier('Object'),
@@ -225,7 +225,10 @@ export const createInitlizer = (
   )
 
   if (statements.length === 0) {
-    return [variableDeclStmnt, objectAssignStmnt]
+    if (objectAssignStmnt) {
+      return [variableDeclStmnt, objectAssignStmnt]
+    }
+    return [variableDeclStmnt]
   }
 
   const ctor = ts.createUniqueName('ctor')
@@ -255,7 +258,10 @@ export const createInitlizer = (
     )
   )
 
-  return [variableDeclStmnt, objectAssignStmnt, functionDeclStmnt, expressionStmnt]
+  if (objectAssignStmnt) {
+    return [variableDeclStmnt, objectAssignStmnt, functionDeclStmnt, expressionStmnt]
+  }
+  return [variableDeclStmnt, functionDeclStmnt, expressionStmnt]
 }
 
 export const createMemoImportDecl = (): [ts.ImportDeclaration, ts.Identifier] => {
