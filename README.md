@@ -35,7 +35,8 @@ getCustomTransformers: () => ({
 
 ## Notice
 if you want to use this plugin, please make sure there're no components were described like following code, otherwise, the transformation will break your app.
-```
+
+```typescript
 class Foo extends React.PureComponent {
 
   render() {
