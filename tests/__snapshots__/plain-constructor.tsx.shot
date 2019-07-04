@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform plain-constructor.tsx with memo 1`] = `
+
+File: plain-constructor.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent<any> {
+    a: number = 0
+    constructor() {
+      super({})
+      this.a = 1
+    }
+  
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, a: 0 };
+    Object.assign(ctx_1, {});
+    function ctor_1() {
+      this.a = 1;
+    }
+    ctor_1.call(ctx_1);
+    return <div>Foo</div>;
+  }
+  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
+  
+
+`;
+
+exports[`should transform plain-constructor.tsx without memo 1`] = `
+
+File: plain-constructor.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent<any> {
+    a: number = 0
+    constructor() {
+      super({})
+      this.a = 1
+    }
+  
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, a: 0 };
+    Object.assign(ctx_1, {});
+    function ctor_1() {
+      this.a = 1;
+    }
+    ctor_1.call(ctx_1);
+    return <div>Foo</div>;
+  }
+  export const A1 = rewrited_pure_class_A1_1;
+  
+
+`;

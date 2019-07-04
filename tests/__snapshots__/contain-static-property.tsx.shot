@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform contain-static-property.tsx with memo 1`] = `
+
+File: contain-static-property.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    static Property = 1
+    render() {
+      return <div>{ A1.Property }</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export class A1 extends React.PureComponent {
+    static Property = 1;
+    render() {
+      return <div>{A1.Property}</div>;
+    }
+  }
+  
+
+`;
+
+exports[`should transform contain-static-property.tsx without memo 1`] = `
+
+File: contain-static-property.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    static Property = 1
+    render() {
+      return <div>{ A1.Property }</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  export class A1 extends React.PureComponent {
+    static Property = 1;
+    render() {
+      return <div>{A1.Property}</div>;
+    }
+  }
+  
+
+`;

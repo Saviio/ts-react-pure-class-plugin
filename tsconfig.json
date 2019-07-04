@@ -5,6 +5,7 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "checkJs": false,
     "declaration": true,
     "jsx": "react",

@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform real-world.tsx with memo 1`] = `
+
+File: real-world.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  interface ReadWorldProps {
+    message: 'hello! Wuha!'
+    color: 'orange'
+    ftSize: 12
+  }
+  
+  export class RealWorld extends React.PureComponent<ReadWorldProps> {
+    private fontSize: number = 0
+    private style: React.CSSProperties = {}
+  
+    constructor(props: ReadWorldProps) {
+      super(props)
+      this.fontSize = props.ftSize + 2
+      this.style = {
+        backgroundColor: props.color,
+        fontSize: this.fontSize
+      }
+    }
+  
+    say = () => {
+      alert(this.props.message)
+    }
+  
+    render() {
+      return (
+        <>
+          <div onClick={ this.say } style={ this.style }>
+            Welcome to reald world
+          </div>
+        </>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  interface ReadWorldProps {
+    message: 'hello! Wuha!';
+    color: 'orange';
+    ftSize: 12;
+  }
+  function rewrited_pure_class_RealWorld_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, fontSize: 0, style: {} };
+    Object.assign(ctx_1, { say: (function say() {
+        alert(rewrited_props_1.message);
+      }).bind(ctx_1) });
+    function ctor_1() {
+      this.fontSize = rewrited_props_1.ftSize + 2;
+      this.style = {
+        backgroundColor: rewrited_props_1.color,
+        fontSize: this.fontSize
+      };
+    }
+    ctor_1.call(ctx_1);
+    return (<>
+      <div onClick={ctx_1.say} style={ctx_1.style}>
+      Welcome to reald world
+      </div>
+    </>);
+  }
+  export const RealWorld = react_memo_1(rewrited_pure_class_RealWorld_1);
+  
+
+`;
+
+exports[`should transform real-world.tsx without memo 1`] = `
+
+File: real-world.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  interface ReadWorldProps {
+    message: 'hello! Wuha!'
+    color: 'orange'
+    ftSize: 12
+  }
+  
+  export class RealWorld extends React.PureComponent<ReadWorldProps> {
+    private fontSize: number = 0
+    private style: React.CSSProperties = {}
+  
+    constructor(props: ReadWorldProps) {
+      super(props)
+      this.fontSize = props.ftSize + 2
+      this.style = {
+        backgroundColor: props.color,
+        fontSize: this.fontSize
+      }
+    }
+  
+    say = () => {
+      alert(this.props.message)
+    }
+  
+    render() {
+      return (
+        <>
+          <div onClick={ this.say } style={ this.style }>
+            Welcome to reald world
+          </div>
+        </>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  interface ReadWorldProps {
+    message: 'hello! Wuha!';
+    color: 'orange';
+    ftSize: 12;
+  }
+  function rewrited_pure_class_RealWorld_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, fontSize: 0, style: {} };
+    Object.assign(ctx_1, { say: (function say() {
+        alert(rewrited_props_1.message);
+      }).bind(ctx_1) });
+    function ctor_1() {
+      this.fontSize = rewrited_props_1.ftSize + 2;
+      this.style = {
+        backgroundColor: rewrited_props_1.color,
+        fontSize: this.fontSize
+      };
+    }
+    ctor_1.call(ctx_1);
+    return (<>
+      <div onClick={ctx_1.say} style={ctx_1.style}>
+      Welcome to reald world
+      </div>
+    </>);
+  }
+  export const RealWorld = rewrited_pure_class_RealWorld_1;
+  
+
+`;

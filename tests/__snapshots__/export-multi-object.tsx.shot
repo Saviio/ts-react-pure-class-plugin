@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform export-multi-object.tsx with memo 1`] = `
+
+File: export-multi-object.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+  export class A2 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+  export class A3 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, {});
+    return <div>Foo</div>;
+  }
+  function rewrited_pure_class_A2_1(rewrited_props_2: any) {
+    let ctx_2 = { props: rewrited_props_2 };
+    Object.assign(ctx_2, {});
+    return <div>Foo</div>;
+  }
+  function rewrited_pure_class_A3_1(rewrited_props_3: any) {
+    let ctx_3 = { props: rewrited_props_3 };
+    Object.assign(ctx_3, {});
+    return <div>Foo</div>;
+  }
+  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
+  export const A2 = react_memo_1(rewrited_pure_class_A2_1);
+  export const A3 = react_memo_1(rewrited_pure_class_A3_1);
+  
+
+`;
+
+exports[`should transform export-multi-object.tsx without memo 1`] = `
+
+File: export-multi-object.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  
+  export class A1 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+  export class A2 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+  export class A3 extends React.PureComponent {
+    render() {
+      return <div>Foo</div>
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, {});
+    return <div>Foo</div>;
+  }
+  function rewrited_pure_class_A2_1(rewrited_props_2: any) {
+    let ctx_2 = { props: rewrited_props_2 };
+    Object.assign(ctx_2, {});
+    return <div>Foo</div>;
+  }
+  function rewrited_pure_class_A3_1(rewrited_props_3: any) {
+    let ctx_3 = { props: rewrited_props_3 };
+    Object.assign(ctx_3, {});
+    return <div>Foo</div>;
+  }
+  export const A1 = rewrited_pure_class_A1_1;
+  export const A2 = rewrited_pure_class_A2_1;
+  export const A3 = rewrited_pure_class_A3_1;
+  
+
+`;
