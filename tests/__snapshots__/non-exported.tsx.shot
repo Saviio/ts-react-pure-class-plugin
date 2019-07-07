@@ -26,8 +26,8 @@ TypeScript after transform:
     let ctx_1 = { props: rewrited_props_1 };
     return <div>{rewrited_props_1.message}</div>;
   }
+  const A1 = rewrited_pure_class_A1_1;
   export { A1 };
-  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
   
 
 `;
@@ -57,8 +57,8 @@ TypeScript after transform:
     let ctx_1 = { props: rewrited_props_1 };
     return <div>{rewrited_props_1.message}</div>;
   }
+  const A1 = rewrited_pure_class_A1_1;
   export { A1 };
-  export const A1 = rewrited_pure_class_A1_1;
   
 
 `;

@@ -18,9 +18,6 @@ const defaultOpts: Option = {
   useMemo: true
 }
 
-// mark 引用的修改 buggy
-// mark ForwardRef 处理
-// async function 处理
 export default function createTransformer(userOpts: Option = {}) {
   const opts = Object.assign({}, defaultOpts, userOpts)
 
@@ -88,7 +85,31 @@ export default function createTransformer(userOpts: Option = {}) {
           ? createDefaultExportAssigment(key, opts.useMemo ? memoIdentifier : undefined)
           : createExportVariable(key, prevIdentifier, opts.useMemo ? memoIdentifier : undefined)
 
-        exportsDecls.push(exportNode)
+        if (modifiers[0]) {
+          exportsDecls.push(exportNode)
+        } else if (!modifiers[0]) {
+          let index = -1
+          transformedNodes.forEach((stmnt, i) => {
+            if (ts.isFunctionDeclaration(stmnt) && stmnt.name === key) {
+              index = i
+            }
+          })
+          const aliasStmnt = ts.createVariableStatement(
+            undefined,
+            ts.createVariableDeclarationList(
+              [
+                ts.createVariableDeclaration(
+                  prevIdentifier,
+                  undefined,
+                  key
+                )
+              ],
+              ts.NodeFlags.Const
+            )
+          )
+
+          transformedNodes.splice(index + 1, 0, aliasStmnt)
+        }
       })
 
       const memoDecl = (opts.useMemo && rewrited) ? [memoImportDecl] : []
@@ -105,20 +126,20 @@ export default function createTransformer(userOpts: Option = {}) {
         ),
       )
 
-      const refsVisitor = (n: ts.Node) => {
-        if (ts.isIdentifier(n)) {
-          const usedIndex = refUses.findIndex((use) => {
-            return use[1].some(c => c.location === n)
-          })
+      // const refsVisitor = (n: ts.Node) => {
+      //   if (ts.isIdentifier(n)) {
+      //     const usedIndex = refUses.findIndex((use) => {
+      //       return use[1].some(c => c.location.escapedText === n.escapedText)
+      //     })
 
-          if (usedIndex > -1) {
-            return ts.updateIdentifier(refUses[usedIndex][2])
-          }
-        }
-        return ts.visitEachChild(n, refsVisitor, transformContext)
-      }
+      //     if (usedIndex > -1) {
+      //       return ts.updateIdentifier(refUses[usedIndex][2])
+      //     }
+      //   }
+      //   return ts.visitEachChild(n, refsVisitor, transformContext)
+      // }
 
-      return ts.visitEachChild(transformedSource, refsVisitor, transformContext)
+      return transformedSource
     })
   }
 

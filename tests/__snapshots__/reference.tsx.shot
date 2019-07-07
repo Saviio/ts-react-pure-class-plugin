@@ -42,8 +42,8 @@ TypeScript after transform:
       {isDisabled ? null : <div />}
     </div>);
   }
-  export const SortableItem = SortableElement(rewrited_pure_class_Item_1);
-  export const Item = react_memo_1(rewrited_pure_class_Item_1);
+  const Item = rewrited_pure_class_Item_1;
+  export const SortableItem = SortableElement(Item);
   
 
 `;
@@ -89,8 +89,8 @@ TypeScript after transform:
       {isDisabled ? null : <div />}
     </div>);
   }
-  export const SortableItem = SortableElement(rewrited_pure_class_Item_1);
-  export const Item = rewrited_pure_class_Item_1;
+  const Item = rewrited_pure_class_Item_1;
+  export const SortableItem = SortableElement(Item);
   
 
 `;
