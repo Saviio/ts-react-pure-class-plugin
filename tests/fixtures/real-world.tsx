@@ -24,10 +24,12 @@ export class RealWorld extends React.PureComponent<ReadWorldProps> {
   }
 
   render() {
+    const m = this.props.message
     return (
       <>
         <div onClick={ this.say } style={ this.style }>
           Welcome to reald world
+          { m }
         </div>
       </>
     )

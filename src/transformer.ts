@@ -6,6 +6,7 @@ import {
   createExportVariable, createDefaultExportAssigment, createParameterWithAnyType,
   createCtor, rewriteRenderFunction
 } from './utils'
+import { collectVariableUsage, VariableUse } from 'tsutils'
 
 export interface Option {
   verbose?: boolean
@@ -17,6 +18,9 @@ const defaultOpts: Option = {
   useMemo: true
 }
 
+// mark 引用的修改 buggy
+// mark ForwardRef 处理
+// async function 处理
 export default function createTransformer(userOpts: Option = {}) {
   const opts = Object.assign({}, defaultOpts, userOpts)
 
@@ -73,9 +77,12 @@ export default function createTransformer(userOpts: Option = {}) {
       const transformedNodes = source.statements.map(n => ts.visitNode(n, visitor))
       const [ memoImportDecl, memoIdentifier ] = createMemoImportDecl()
       const exportsDecls: (ts.ExportAssignment | ts.VariableStatement)[] = []
+      const refUses: [ts.Identifier, VariableUse[], ts.Identifier][] = []
 
       classSymbols.forEach((value, key) => {
         const [ prevIdentifier, modifiers ] = value
+        const uses = collectVariableUsage(source).get(prevIdentifier).uses
+        refUses.push([prevIdentifier, uses, key])
 
         const exportNode = modifiers[1]
           ? createDefaultExportAssigment(key, opts.useMemo ? memoIdentifier : undefined)
@@ -86,7 +93,7 @@ export default function createTransformer(userOpts: Option = {}) {
 
       const memoDecl = (opts.useMemo && rewrited) ? [memoImportDecl] : []
 
-      return ts.updateSourceFileNode(
+      const transformedSource = ts.updateSourceFileNode(
         source,
         ts.setTextRange(
           ts.createNodeArray([
@@ -97,6 +104,21 @@ export default function createTransformer(userOpts: Option = {}) {
           source.statements,
         ),
       )
+
+      const refsVisitor = (n: ts.Node) => {
+        if (ts.isIdentifier(n)) {
+          const usedIndex = refUses.findIndex((use) => {
+            return use[1].some(c => c.location === n)
+          })
+
+          if (usedIndex > -1) {
+            return ts.updateIdentifier(refUses[usedIndex][2])
+          }
+        }
+        return ts.visitEachChild(n, refsVisitor, transformContext)
+      }
+
+      return ts.visitEachChild(transformedSource, refsVisitor, transformContext)
     })
   }
 

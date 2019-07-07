@@ -1,0 +1,330 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform gantt-menu.tsx with memo 1`] = `
+
+File: gantt-menu.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  import { Loading } from 'common/loading'
+  
+  import {
+    StageTasksMap,
+    GanttStageSchema,
+    GanttTasklistSchema,
+    TasksExpanded,
+  } from '../gantt.module'
+  import { TaskSchema } from 'teambition-sdk'
+  import { TaskId, StageId } from 'teambition-types'
+  
+  import { GanttMenuStageItemComponent as StageItem } from '../gantt-menu-stage-item'
+  
+  import './gantt-menu.style.less'
+  
+  interface GanttMenuProps {
+    readonly isLoading: boolean
+    readonly stages: GanttStageSchema[] | null
+    readonly stageTasksMap: StageTasksMap
+    readonly tasklist: GanttTasklistSchema | null
+    readonly tasksExpanded: TasksExpanded
+    readonly isUsingFilter: boolean
+  
+    onRequestTasks: (stage: GanttStageSchema) => void
+    onExpandStage: (stage: GanttStageSchema) => void
+    onUnexpandStage: (stage: GanttStageSchema) => void
+    onRequestMoreTasks: (stageId: StageId, pageIndex: number) => void
+    onOpenTaskDetail: (task: TaskSchema, type: string) => void
+    onOpenTaskCreator: (stage: GanttStageSchema, onComplete?: () => void) => void
+    onChangeCurrentTask: (taskId: TaskId | null, stageId: StageId) => void
+    onRequestSubtasks: (stageId: StageId, taskId: TaskId) => void
+  }
+  
+  const a = <Loading />
+  
+  export class GanttMenuComponent extends React.PureComponent<GanttMenuProps> {
+    private stagesRef = new Map<StageId, StageItem>()
+    private saveStageRef = (ref: StageItem) => {
+      const stageId = ref && ref.props.stage._id && this.props.onExpandStage
+      stageId && this.stagesRef.set(stageId, ref)
+    }
+  
+    forceUpdateTask = (taskId: TaskId | null, stageId: StageId) => {
+      this.stagesRef.forEach((ref) => {
+        ref && ref.forceUpdateTask(taskId, stageId)
+      })
+    }
+  
+    renderStageItems() {
+      const stages = this.props.stages
+      return stages && stages.map((stage) => {
+        return (
+          <StageItem
+            ref={ this.saveStageRef }
+            key={ stage._id as string }
+            stage={ stage }
+            isUsingFilter={ this.props.isUsingFilter }
+            tasksExpanded={ this.props.tasksExpanded }
+            stageTasksMap={ this.props.stageTasksMap }
+            onRequestTasks={ this.props.onRequestTasks }
+            onExpandStage={ this.props.onExpandStage }
+            onUnexpandStage={ this.props.onUnexpandStage }
+            onRequestMoreTasks={ this.props.onRequestMoreTasks }
+            onOpenTaskDetail={ this.props.onOpenTaskDetail }
+            onOpenTaskCreator={ this.props.onOpenTaskCreator }
+            onChangeCurrentTask={ this.props.onChangeCurrentTask }
+            onRequestSubtasks={ this.props.onRequestSubtasks }
+          />
+        )
+      })
+    }
+  
+    renderStageList() {
+      return (
+        _a
+      )
+    }
+  
+    renderContent() {
+      if (this.props.isLoading) {
+        return a
+      } else {
+        return this.renderStageList()
+      }
+    }
+  
+    render() {
+      return (
+        <div className='gantt-menu-component'>
+          { this.renderContent() }
+        </div>
+      )
+    }
+  
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  import { Loading } from 'common/loading';
+  import { StageTasksMap, GanttStageSchema, GanttTasklistSchema, TasksExpanded, } from '../gantt.module';
+  import { TaskSchema } from 'teambition-sdk';
+  import { TaskId, StageId } from 'teambition-types';
+  import { GanttMenuStageItemComponent as StageItem } from '../gantt-menu-stage-item';
+  import './gantt-menu.style.less';
+  interface GanttMenuProps {
+    readonly isLoading: boolean;
+    readonly stages: GanttStageSchema[] | null;
+    readonly stageTasksMap: StageTasksMap;
+    readonly tasklist: GanttTasklistSchema | null;
+    readonly tasksExpanded: TasksExpanded;
+    readonly isUsingFilter: boolean;
+    onRequestTasks: (stage: GanttStageSchema) => void;
+    onExpandStage: (stage: GanttStageSchema) => void;
+    onUnexpandStage: (stage: GanttStageSchema) => void;
+    onRequestMoreTasks: (stageId: StageId, pageIndex: number) => void;
+    onOpenTaskDetail: (task: TaskSchema, type: string) => void;
+    onOpenTaskCreator: (stage: GanttStageSchema, onComplete?: () => void) => void;
+    onChangeCurrentTask: (taskId: TaskId | null, stageId: StageId) => void;
+    onRequestSubtasks: (stageId: StageId, taskId: TaskId) => void;
+  }
+  const a = <Loading />;
+  function rewrited_pure_class_GanttMenuComponent_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, stagesRef: new Map<StageId, StageItem>() };
+    Object.assign(ctx_1, { saveStageRef: (function saveStageRef(ref: StageItem) {
+        const stageId = ref && ref.props.stage._id && rewrited_props_1.onExpandStage;
+        stageId && ctx_1.stagesRef.set(stageId, ref);
+      }).bind(ctx_1), forceUpdateTask: (function forceUpdateTask(taskId: TaskId | null, stageId: StageId) {
+        ctx_1.stagesRef.forEach((ref) => {
+          ref && ref.forceUpdateTask(taskId, stageId);
+        });
+      }).bind(ctx_1), renderStageItems: function renderStageItems() {
+        const stages = rewrited_props_1.stages;
+        return stages && stages.map((stage) => {
+          return (<StageItem ref={ctx_1.saveStageRef} key={stage._id as string} stage={stage} isUsingFilter={rewrited_props_1.isUsingFilter} tasksExpanded={rewrited_props_1.tasksExpanded} stageTasksMap={rewrited_props_1.stageTasksMap} onRequestTasks={rewrited_props_1.onRequestTasks} onExpandStage={rewrited_props_1.onExpandStage} onUnexpandStage={rewrited_props_1.onUnexpandStage} onRequestMoreTasks={rewrited_props_1.onRequestMoreTasks} onOpenTaskDetail={rewrited_props_1.onOpenTaskDetail} onOpenTaskCreator={rewrited_props_1.onOpenTaskCreator} onChangeCurrentTask={rewrited_props_1.onChangeCurrentTask} onRequestSubtasks={rewrited_props_1.onRequestSubtasks}/>);
+        });
+      }, renderStageList: function renderStageList() {
+        return (_a);
+      }, renderContent: function renderContent() {
+        if (rewrited_props_1.isLoading) {
+          return a;
+        }
+        else {
+          return ctx_1.renderStageList();
+        }
+      } });
+    return (<div className='gantt-menu-component'>
+      {ctx_1.renderContent()}
+    </div>);
+  }
+  export const GanttMenuComponent = react_memo_1(rewrited_pure_class_GanttMenuComponent_1);
+  
+
+`;
+
+exports[`should transform gantt-menu.tsx without memo 1`] = `
+
+File: gantt-menu.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  import { Loading } from 'common/loading'
+  
+  import {
+    StageTasksMap,
+    GanttStageSchema,
+    GanttTasklistSchema,
+    TasksExpanded,
+  } from '../gantt.module'
+  import { TaskSchema } from 'teambition-sdk'
+  import { TaskId, StageId } from 'teambition-types'
+  
+  import { GanttMenuStageItemComponent as StageItem } from '../gantt-menu-stage-item'
+  
+  import './gantt-menu.style.less'
+  
+  interface GanttMenuProps {
+    readonly isLoading: boolean
+    readonly stages: GanttStageSchema[] | null
+    readonly stageTasksMap: StageTasksMap
+    readonly tasklist: GanttTasklistSchema | null
+    readonly tasksExpanded: TasksExpanded
+    readonly isUsingFilter: boolean
+  
+    onRequestTasks: (stage: GanttStageSchema) => void
+    onExpandStage: (stage: GanttStageSchema) => void
+    onUnexpandStage: (stage: GanttStageSchema) => void
+    onRequestMoreTasks: (stageId: StageId, pageIndex: number) => void
+    onOpenTaskDetail: (task: TaskSchema, type: string) => void
+    onOpenTaskCreator: (stage: GanttStageSchema, onComplete?: () => void) => void
+    onChangeCurrentTask: (taskId: TaskId | null, stageId: StageId) => void
+    onRequestSubtasks: (stageId: StageId, taskId: TaskId) => void
+  }
+  
+  const a = <Loading />
+  
+  export class GanttMenuComponent extends React.PureComponent<GanttMenuProps> {
+    private stagesRef = new Map<StageId, StageItem>()
+    private saveStageRef = (ref: StageItem) => {
+      const stageId = ref && ref.props.stage._id && this.props.onExpandStage
+      stageId && this.stagesRef.set(stageId, ref)
+    }
+  
+    forceUpdateTask = (taskId: TaskId | null, stageId: StageId) => {
+      this.stagesRef.forEach((ref) => {
+        ref && ref.forceUpdateTask(taskId, stageId)
+      })
+    }
+  
+    renderStageItems() {
+      const stages = this.props.stages
+      return stages && stages.map((stage) => {
+        return (
+          <StageItem
+            ref={ this.saveStageRef }
+            key={ stage._id as string }
+            stage={ stage }
+            isUsingFilter={ this.props.isUsingFilter }
+            tasksExpanded={ this.props.tasksExpanded }
+            stageTasksMap={ this.props.stageTasksMap }
+            onRequestTasks={ this.props.onRequestTasks }
+            onExpandStage={ this.props.onExpandStage }
+            onUnexpandStage={ this.props.onUnexpandStage }
+            onRequestMoreTasks={ this.props.onRequestMoreTasks }
+            onOpenTaskDetail={ this.props.onOpenTaskDetail }
+            onOpenTaskCreator={ this.props.onOpenTaskCreator }
+            onChangeCurrentTask={ this.props.onChangeCurrentTask }
+            onRequestSubtasks={ this.props.onRequestSubtasks }
+          />
+        )
+      })
+    }
+  
+    renderStageList() {
+      return (
+        _a
+      )
+    }
+  
+    renderContent() {
+      if (this.props.isLoading) {
+        return a
+      } else {
+        return this.renderStageList()
+      }
+    }
+  
+    render() {
+      return (
+        <div className='gantt-menu-component'>
+          { this.renderContent() }
+        </div>
+      )
+    }
+  
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  import { Loading } from 'common/loading';
+  import { StageTasksMap, GanttStageSchema, GanttTasklistSchema, TasksExpanded, } from '../gantt.module';
+  import { TaskSchema } from 'teambition-sdk';
+  import { TaskId, StageId } from 'teambition-types';
+  import { GanttMenuStageItemComponent as StageItem } from '../gantt-menu-stage-item';
+  import './gantt-menu.style.less';
+  interface GanttMenuProps {
+    readonly isLoading: boolean;
+    readonly stages: GanttStageSchema[] | null;
+    readonly stageTasksMap: StageTasksMap;
+    readonly tasklist: GanttTasklistSchema | null;
+    readonly tasksExpanded: TasksExpanded;
+    readonly isUsingFilter: boolean;
+    onRequestTasks: (stage: GanttStageSchema) => void;
+    onExpandStage: (stage: GanttStageSchema) => void;
+    onUnexpandStage: (stage: GanttStageSchema) => void;
+    onRequestMoreTasks: (stageId: StageId, pageIndex: number) => void;
+    onOpenTaskDetail: (task: TaskSchema, type: string) => void;
+    onOpenTaskCreator: (stage: GanttStageSchema, onComplete?: () => void) => void;
+    onChangeCurrentTask: (taskId: TaskId | null, stageId: StageId) => void;
+    onRequestSubtasks: (stageId: StageId, taskId: TaskId) => void;
+  }
+  const a = <Loading />;
+  function rewrited_pure_class_GanttMenuComponent_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1, stagesRef: new Map<StageId, StageItem>() };
+    Object.assign(ctx_1, { saveStageRef: (function saveStageRef(ref: StageItem) {
+        const stageId = ref && ref.props.stage._id && rewrited_props_1.onExpandStage;
+        stageId && ctx_1.stagesRef.set(stageId, ref);
+      }).bind(ctx_1), forceUpdateTask: (function forceUpdateTask(taskId: TaskId | null, stageId: StageId) {
+        ctx_1.stagesRef.forEach((ref) => {
+          ref && ref.forceUpdateTask(taskId, stageId);
+        });
+      }).bind(ctx_1), renderStageItems: function renderStageItems() {
+        const stages = rewrited_props_1.stages;
+        return stages && stages.map((stage) => {
+          return (<StageItem ref={ctx_1.saveStageRef} key={stage._id as string} stage={stage} isUsingFilter={rewrited_props_1.isUsingFilter} tasksExpanded={rewrited_props_1.tasksExpanded} stageTasksMap={rewrited_props_1.stageTasksMap} onRequestTasks={rewrited_props_1.onRequestTasks} onExpandStage={rewrited_props_1.onExpandStage} onUnexpandStage={rewrited_props_1.onUnexpandStage} onRequestMoreTasks={rewrited_props_1.onRequestMoreTasks} onOpenTaskDetail={rewrited_props_1.onOpenTaskDetail} onOpenTaskCreator={rewrited_props_1.onOpenTaskCreator} onChangeCurrentTask={rewrited_props_1.onChangeCurrentTask} onRequestSubtasks={rewrited_props_1.onRequestSubtasks}/>);
+        });
+      }, renderStageList: function renderStageList() {
+        return (_a);
+      }, renderContent: function renderContent() {
+        if (rewrited_props_1.isLoading) {
+          return a;
+        }
+        else {
+          return ctx_1.renderStageList();
+        }
+      } });
+    return (<div className='gantt-menu-component'>
+      {ctx_1.renderContent()}
+    </div>);
+  }
+  export const GanttMenuComponent = rewrited_pure_class_GanttMenuComponent_1;
+  
+
+`;

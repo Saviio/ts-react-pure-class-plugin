@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform async-generator-function.tsx with memo 1`] = `
+
+File: async-generator-function.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  import * as fs from 'fs'
+  
+  export class A1 extends React.PureComponent<{ message: string }> {
+  
+    async output() {
+      const a = await fs.readFileSync('foo')
+      console.info(a)
+    }
+  
+    output2 = async () => {
+      const a = await fs.readFileSync('foo')
+      console.info(a)
+    }
+  
+    *output3() {
+      const a = yield 1
+      console.info(a)
+    }
+  
+    render() {
+      return (
+        <div>
+          { this.props.message }
+          <div onClick={ this.output }>output1</div>
+          <div onClick={ this.output2 }>output2</div>
+          <div onClick={ this.output3 }>output3</div>
+        </div>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  import * as fs from 'fs';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, { output: async function output() {
+        const a = await fs.readFileSync('foo');
+        console.info(a);
+      }, output2: (async function output2() {
+        const a = await fs.readFileSync('foo');
+        console.info(a);
+      }).bind(ctx_1), output3: function* output3() {
+        const a = yield 1;
+        console.info(a);
+      } });
+    return (<div>
+      {rewrited_props_1.message}
+      <div onClick={ctx_1.output}>output1</div>
+      <div onClick={ctx_1.output2}>output2</div>
+      <div onClick={ctx_1.output3}>output3</div>
+    </div>);
+  }
+  export const A1 = react_memo_1(rewrited_pure_class_A1_1);
+  
+
+`;
+
+exports[`should transform async-generator-function.tsx without memo 1`] = `
+
+File: async-generator-function.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  import * as fs from 'fs'
+  
+  export class A1 extends React.PureComponent<{ message: string }> {
+  
+    async output() {
+      const a = await fs.readFileSync('foo')
+      console.info(a)
+    }
+  
+    output2 = async () => {
+      const a = await fs.readFileSync('foo')
+      console.info(a)
+    }
+  
+    *output3() {
+      const a = yield 1
+      console.info(a)
+    }
+  
+    render() {
+      return (
+        <div>
+          { this.props.message }
+          <div onClick={ this.output }>output1</div>
+          <div onClick={ this.output2 }>output2</div>
+          <div onClick={ this.output3 }>output3</div>
+        </div>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  import * as fs from 'fs';
+  function rewrited_pure_class_A1_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, { output: async function output() {
+        const a = await fs.readFileSync('foo');
+        console.info(a);
+      }, output2: (async function output2() {
+        const a = await fs.readFileSync('foo');
+        console.info(a);
+      }).bind(ctx_1), output3: function* output3() {
+        const a = yield 1;
+        console.info(a);
+      } });
+    return (<div>
+      {rewrited_props_1.message}
+      <div onClick={ctx_1.output}>output1</div>
+      <div onClick={ctx_1.output2}>output2</div>
+      <div onClick={ctx_1.output3}>output3</div>
+    </div>);
+  }
+  export const A1 = rewrited_pure_class_A1_1;
+  
+
+`;

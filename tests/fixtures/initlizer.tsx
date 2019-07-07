@@ -38,12 +38,15 @@ export class A3 extends React.PureComponent {
   private b: string = '2'
   public c: boolean = true
   render() {
+    // tslint:disable-next-line:prefer-const
+    let x: number | undefined
     const { a, b, c } = this
     return (
       <div>
         { a }
         { b }
         { c }
+        { x }
       </div>
     )
   }
