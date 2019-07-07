@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform check-frame.component.tsx with memo 1`] = `
+
+File: check-frame.component.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  import classnames from 'classnames'
+  
+  type CheckProps = {
+    readonly checked?: boolean
+    readonly disabled?: boolean
+    readonly onCheckClick?: () => void
+  }
+  
+  export class CheckFrame extends React.PureComponent<CheckProps> {
+  
+    onToggleCheck = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      if (this.props.onCheckClick) {
+        this.props.onCheckClick()
+      }
+    }
+  
+    renderCheckbox() {
+      return (
+        <div
+          className='frame-check-box'
+          onClick={ this.onToggleCheck }
+        >
+          <i className='check-mark icon icon-tick'/>
+        </div>
+      )
+    }
+  
+    renderContent() {
+      return this.props.children && (
+        <div className='frame-content'>
+          { this.props.children }
+        </div>
+      )
+    }
+  
+    render() {
+      const rootClassName = classnames('check-frame', {
+        checked: !!this.props.checked,
+        disabled: !!this.props.disabled
+      })
+      return (
+        <div className={ rootClassName }>
+          { this.renderContent() }
+          { this.renderCheckbox() }
+        </div>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import * as React from 'react';
+  import classnames from 'classnames';
+  type CheckProps = {
+    readonly checked?: boolean;
+    readonly disabled?: boolean;
+    readonly onCheckClick?: () => void;
+  };
+  function rewrited_pure_class_CheckFrame_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, { onToggleCheck: (function onToggleCheck(e: React.MouseEvent<HTMLDivElement>) {
+        e.stopPropagation();
+        if (rewrited_props_1.onCheckClick) {
+          rewrited_props_1.onCheckClick();
+        }
+      }).bind(ctx_1), renderCheckbox: function renderCheckbox() {
+        return (<div className='frame-check-box' onClick={ctx_1.onToggleCheck}>
+      <i className='check-mark icon icon-tick'/>
+    </div>);
+      }, renderContent: function renderContent() {
+        return rewrited_props_1.children && (<div className='frame-content'>
+      {rewrited_props_1.children}
+    </div>);
+      } });
+    const rootClassName = classnames('check-frame', {
+      checked: !!rewrited_props_1.checked,
+      disabled: !!rewrited_props_1.disabled
+    });
+    return (<div className={rootClassName}>
+      {ctx_1.renderContent()}
+      {ctx_1.renderCheckbox()}
+    </div>);
+  }
+  export const CheckFrame = react_memo_1(rewrited_pure_class_CheckFrame_1);
+  
+
+`;
+
+exports[`should transform check-frame.component.tsx without memo 1`] = `
+
+File: check-frame.component.tsx
+TypeScript before transform:
+
+  import * as React from 'react'
+  import classnames from 'classnames'
+  
+  type CheckProps = {
+    readonly checked?: boolean
+    readonly disabled?: boolean
+    readonly onCheckClick?: () => void
+  }
+  
+  export class CheckFrame extends React.PureComponent<CheckProps> {
+  
+    onToggleCheck = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      if (this.props.onCheckClick) {
+        this.props.onCheckClick()
+      }
+    }
+  
+    renderCheckbox() {
+      return (
+        <div
+          className='frame-check-box'
+          onClick={ this.onToggleCheck }
+        >
+          <i className='check-mark icon icon-tick'/>
+        </div>
+      )
+    }
+  
+    renderContent() {
+      return this.props.children && (
+        <div className='frame-content'>
+          { this.props.children }
+        </div>
+      )
+    }
+  
+    render() {
+      const rootClassName = classnames('check-frame', {
+        checked: !!this.props.checked,
+        disabled: !!this.props.disabled
+      })
+      return (
+        <div className={ rootClassName }>
+          { this.renderContent() }
+          { this.renderCheckbox() }
+        </div>
+      )
+    }
+  }
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import * as React from 'react';
+  import classnames from 'classnames';
+  type CheckProps = {
+    readonly checked?: boolean;
+    readonly disabled?: boolean;
+    readonly onCheckClick?: () => void;
+  };
+  function rewrited_pure_class_CheckFrame_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, { onToggleCheck: (function onToggleCheck(e: React.MouseEvent<HTMLDivElement>) {
+        e.stopPropagation();
+        if (rewrited_props_1.onCheckClick) {
+          rewrited_props_1.onCheckClick();
+        }
+      }).bind(ctx_1), renderCheckbox: function renderCheckbox() {
+        return (<div className='frame-check-box' onClick={ctx_1.onToggleCheck}>
+      <i className='check-mark icon icon-tick'/>
+    </div>);
+      }, renderContent: function renderContent() {
+        return rewrited_props_1.children && (<div className='frame-content'>
+      {rewrited_props_1.children}
+    </div>);
+      } });
+    const rootClassName = classnames('check-frame', {
+      checked: !!rewrited_props_1.checked,
+      disabled: !!rewrited_props_1.disabled
+    });
+    return (<div className={rootClassName}>
+      {ctx_1.renderContent()}
+      {ctx_1.renderCheckbox()}
+    </div>);
+  }
+  export const CheckFrame = rewrited_pure_class_CheckFrame_1;
+  
+
+`;

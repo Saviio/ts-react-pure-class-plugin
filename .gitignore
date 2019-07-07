@@ -63,3 +63,4 @@ typings/
 test/test.d.ts
 test/test.js
 .vscode
+lib/*

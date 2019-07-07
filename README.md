@@ -73,6 +73,7 @@ if transformer meets one of following conditions, optmization will be skipped.
 - abstract class
 - not a pure component
 - a special comment directive
+- non-top-level class
 
 ### Deopt directive
 ```typescript
@@ -83,9 +84,6 @@ export class A1 extends React.PureComponent {
   }
 }
 ```
-
-## Benifit
-in my super naive tests, we can get about 25% ~ 30% performance improvement.
 
 ## License
 

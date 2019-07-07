@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform reference.tsx with memo 1`] = `
+
+File: reference.tsx
+TypeScript before transform:
+
+  import React from 'react'
+  
+  class Item extends React.PureComponent<any> {
+    render() {
+      const { isDisabled } = this.props
+  
+      return (
+        <div onClick={ this.handleClick }>
+          { isDisabled ? null : <div /> }
+        </div>
+      )
+    }
+  
+    private handleClick = () => {
+      this.props.onDivisionClick(this.props.item)
+    }
+  }
+  
+  export const SortableItem = SortableElement(Item)
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import { memo as react_memo_1 } from "react";
+  import React from 'react';
+  function rewrited_pure_class_Item_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, { handleClick: (function handleClick() {
+        rewrited_props_1.onDivisionClick(rewrited_props_1.item);
+      }).bind(ctx_1) });
+    const { isDisabled } = rewrited_props_1;
+    return (<div onClick={ctx_1.handleClick}>
+      {isDisabled ? null : <div />}
+    </div>);
+  }
+  export const SortableItem = SortableElement(rewrited_pure_class_Item_1);
+  export const Item = react_memo_1(rewrited_pure_class_Item_1);
+  
+
+`;
+
+exports[`should transform reference.tsx without memo 1`] = `
+
+File: reference.tsx
+TypeScript before transform:
+
+  import React from 'react'
+  
+  class Item extends React.PureComponent<any> {
+    render() {
+      const { isDisabled } = this.props
+  
+      return (
+        <div onClick={ this.handleClick }>
+          { isDisabled ? null : <div /> }
+        </div>
+      )
+    }
+  
+    private handleClick = () => {
+      this.props.onDivisionClick(this.props.item)
+    }
+  }
+  
+  export const SortableItem = SortableElement(Item)
+  
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+TypeScript after transform:
+
+  import React from 'react';
+  function rewrited_pure_class_Item_1(rewrited_props_1: any) {
+    let ctx_1 = { props: rewrited_props_1 };
+    Object.assign(ctx_1, { handleClick: (function handleClick() {
+        rewrited_props_1.onDivisionClick(rewrited_props_1.item);
+      }).bind(ctx_1) });
+    const { isDisabled } = rewrited_props_1;
+    return (<div onClick={ctx_1.handleClick}>
+      {isDisabled ? null : <div />}
+    </div>);
+  }
+  export const SortableItem = SortableElement(rewrited_pure_class_Item_1);
+  export const Item = rewrited_pure_class_Item_1;
+  
+
+`;

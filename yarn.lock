@@ -6127,6 +6127,13 @@ tsutils@^3.0.0:
   dependencies:
     tslib "^1.8.1"
 
+tsutils@^3.14.0:
+  version "3.14.0"
+  resolved "http://r.cnpmjs.org/tsutils/download/tsutils-3.14.0.tgz#bf8d5a7bae5369331fa0f2b0a5a10bd7f7396c77"
+  integrity sha1-v41ae65TaTMfoPKwpaEL1/c5bHc=
+  dependencies:
+    tslib "^1.8.1"
+
 tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"

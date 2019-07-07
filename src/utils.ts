@@ -28,6 +28,10 @@ export const isDeoptCls = (node: ts.ClassDeclaration) => {
 }
 
 export const getClassModifier = (node: ts.ClassDeclaration): [boolean, boolean] => {
+  if (!node.modifiers) {
+    return [false, false]
+  }
+
   const count = node.modifiers.length
 
   switch (count) {
@@ -394,6 +398,11 @@ export const createThisContextInitializer = (
     if (ts.isPropertyDeclaration(n)) {
       if (n.initializer) {
         if (ts.isArrowFunction(n.initializer)) {
+          const isAsync = isAsyncFunction(n.initializer)
+          const modifiers = isAsync
+            ? [ts.createModifier(ts.SyntaxKind.AsyncKeyword)]
+            : undefined
+
           const assignment = ts.createPropertyAssignment(
             n.name,
             createCall(
@@ -403,7 +412,8 @@ export const createThisContextInitializer = (
                 findFunctionBody((n.initializer.body as ts.FunctionBody)).map((stmnt) =>
                   ts.visitNode(stmnt, propertyVistor(stmnt, propsIdentifier, thisContext, transformContext)))
               ),
-              thisContext
+              thisContext,
+              modifiers
             )
           )
           fns.push(assignment)
@@ -416,11 +426,14 @@ export const createThisContextInitializer = (
         }
       }
     } else if (ts.isMethodDeclaration(n) && n.name.getText() !== 'render') {
+      const isAsync = isAsyncFunction(n)
+      const isGenerator = isGeneratorMethod(n)
+
       const assignment = ts.createPropertyAssignment(
         n.name as ts.Identifier,
         ts.createFunctionExpression(
-          undefined,
-          undefined,
+          isAsync ? [ts.createModifier(ts.SyntaxKind.AsyncKeyword)] : undefined,
+          isGenerator ? ts.createToken(ts.SyntaxKind.AsteriskToken) : undefined,
           n.name as ts.Identifier,
           undefined,
           n.parameters,
@@ -492,7 +505,7 @@ const propertyVistor = (
   const renderVistor: ts.Visitor = (node: ts.Node) => {
     if (ts.isVariableDeclaration(node)) {
       // handle case: const { a, b, c } = this
-      if (node.initializer.kind === ts.SyntaxKind.ThisKeyword) {
+      if (node.initializer && node.initializer.kind === ts.SyntaxKind.ThisKeyword) {
         return ts.updateVariableDeclaration(node, node.name, node.type, thisContext)
       }
     }
@@ -504,7 +517,12 @@ const propertyVistor = (
       }
 
       // handle case: const b = this.props.b
-      if (ts.isPropertyAccessExpression(node.expression) && node.expression.name.getText() === 'props') {
+      if (ts.isPropertyAccessExpression(node.expression) &&
+        node.expression.name.getText() === 'props' &&
+        node.expression.expression &&
+        node.expression.expression.kind === ts.SyntaxKind.ThisKeyword &&
+        (node.expression.expression as ts.Identifier).getText() === 'this'
+      ) {
         return ts.createPropertyAccess(propsIdentifier, node.name)
       }
 
@@ -575,13 +593,14 @@ export const createCall = (
   identifier: ts.Identifier,
   parameters: ts.NodeArray<ts.ParameterDeclaration>,
   stmnts: ts.NodeArray<ts.Statement>,
-  thisContext: ts.Identifier
+  thisContext: ts.Identifier,
+  modifiers?: ts.Modifier[]
 ) => {
   return ts.createCall(
     ts.createPropertyAccess(
       ts.createParen(
         ts.createFunctionExpression(
-          undefined,
+          modifiers,
           undefined,
           identifier,
           undefined,
@@ -595,4 +614,18 @@ export const createCall = (
     undefined,
     [thisContext]
   )
+}
+
+export const isAsyncFunction = (node: ts.MethodDeclaration | ts.ArrowFunction) => {
+  if (!node.modifiers) {
+    return false
+  }
+  return node.modifiers.some(m => m.kind === ts.SyntaxKind.AsyncKeyword)
+}
+
+export const isGeneratorMethod = (node: ts.MethodDeclaration) => {
+  if (!node.asteriskToken) {
+    return false
+  }
+  return node.asteriskToken.kind === ts.SyntaxKind.AsteriskToken
 }

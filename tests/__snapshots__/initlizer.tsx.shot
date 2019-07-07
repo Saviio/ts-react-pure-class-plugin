@@ -45,12 +45,15 @@ TypeScript before transform:
     private b: string = '2'
     public c: boolean = true
     render() {
+      // tslint:disable-next-line:prefer-const
+      let x: number | undefined
       const { a, b, c } = this
       return (
         <div>
           { a }
           { b }
           { c }
+          { x }
         </div>
       )
     }
@@ -84,11 +87,14 @@ TypeScript after transform:
   }
   function rewrited_pure_class_A3_1(rewrited_props_3: any) {
     let ctx_3 = { props: rewrited_props_3, a: 1, b: '2', c: true };
+    // tslint:disable-next-line:prefer-const
+    let x: number | undefined;
     const { a, b, c } = ctx_3;
     return (<div>
       {a}
       {b}
       {c}
+      {x}
     </div>);
   }
   export const A1 = react_memo_1(rewrited_pure_class_A1_1);
@@ -143,12 +149,15 @@ TypeScript before transform:
     private b: string = '2'
     public c: boolean = true
     render() {
+      // tslint:disable-next-line:prefer-const
+      let x: number | undefined
       const { a, b, c } = this
       return (
         <div>
           { a }
           { b }
           { c }
+          { x }
         </div>
       )
     }
@@ -181,11 +190,14 @@ TypeScript after transform:
   }
   function rewrited_pure_class_A3_1(rewrited_props_3: any) {
     let ctx_3 = { props: rewrited_props_3, a: 1, b: '2', c: true };
+    // tslint:disable-next-line:prefer-const
+    let x: number | undefined;
     const { a, b, c } = ctx_3;
     return (<div>
       {a}
       {b}
       {c}
+      {x}
     </div>);
   }
   export const A1 = rewrited_pure_class_A1_1;

@@ -1,11 +1,11 @@
 {
   "name": "ts-react-pure-class-plugin",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A plugin for optimizing pure component in React(tsx).",
-  "main": "index.js",
+  "main": "lib/index.js",
   "typings": "index.d.ts",
   "scripts": {
-    "build": "rm -rf lib && tsc -p src/tsconfig.json",
+    "build": "rm -rf lib && tsc -p tsconfig.json",
     "cover": "npm run build && rm -rf ./coverage ./.nyc_output && nyc --reporter=html --reporter=lcov --exclude=node_modules --exclude=test mocha && nyc report",
     "lint": "tslint -c ./tslint.json -p ./src/tsconfig.json",
     "watch": "tsc -p ./src/tsconfig.json -w --diagnostics",
@@ -48,7 +48,8 @@
     "tslint-eslint-rules": "^5.4.0",
     "typescript": "^3.4.1",
     "webpack": "^4.10.2",
-    "webpack-cli": "^3.0.2"
+    "webpack-cli": "^3.0.2",
+    "jest": "^24.8.0"
   },
   "jest": {
     "globals": {
@@ -73,7 +74,6 @@
     ]
   },
   "dependencies": {
-    "benchmark": "^2.1.4",
-    "jest": "^24.8.0"
+    "tsutils": "^3.14.0"
   }
 }
